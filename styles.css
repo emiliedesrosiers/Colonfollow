@@ -1,0 +1,37 @@
+:root {
+  --sage: #6a8d7a;
+  --sage-light: #eff4f1;
+  --text: #222;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  background: var(--sage-light);
+  color: var(--text);
+  line-height: 1.4;
+  padding: 0 1rem 2rem;
+}
+header { text-align: center; padding: 1.5rem 0; }
+main { max-width: 600px; margin: auto; }
+fieldset { border: 2px solid var(--sage); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.25rem; }
+legend { padding: 0 0.5rem; font-weight: 600; color: var(--sage); }
+label { display: block; margin: 0.5rem 0; }
+input[type="number"] { width: 100%; padding: 0.35rem; }
+button {
+  display: block;
+  width: 100%;
+  background: var(--sage);
+  color: white;
+  border: none;
+  padding: 0.75rem; border-radius: 0.5rem;
+  font-size: 1.1rem; cursor: pointer;
+}
+button:hover { filter: brightness(1.05); }
+#result { text-align: center; margin-top: 2rem; }
+#intervalDisplay { font-size: 2rem; font-weight: bold; color: var(--sage); }
+
+/* « install » banner suggestion */
+@media(all and display-mode: standalone) {
+  header { padding-top: 0.5rem; }
+}
