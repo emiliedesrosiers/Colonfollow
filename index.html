@@ -4,30 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ColonFollow</title>
-
-    <!-- PWA manifest & theme colour -->
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#6a8d7a" />
-
-    <!-- Styles -->
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
-      <h1>ColonFollow – calculateur de suivi post-coloscopie</h1>
+      <h1>ColonFollow – calculateur de suivi post‑coloscopie</h1>
     </header>
 
     <main>
       <form id="criteriaForm">
+        <!-- Antécédents globaux -->
         <fieldset>
-          <legend>Catégorie de risque</legend>
-          <label><input type="radio" name="risk" value="average" checked /> Risque moyen</label>
-          <label><input type="radio" name="risk" value="family" /> Antécédents familiaux</label>
-          <label><input type="radio" name="risk" value="personal" /> ATCD personnels de polypes</label>
+          <legend>Antécédents</legend>
+          <label><input type="checkbox" id="familyHistory" /> Antécédents familiaux</label>
+          <label><input type="checkbox" id="personalPolyp" /> Polypes coliques (ATCD personnels)</label>
+          <small>(Aucune case cochée = risque moyen)</small>
         </fieldset>
 
+        <!-- Exceptions qualité -->
         <fieldset>
-          <legend>Exceptions qualité (▼ répéter à 3–6 mois)</legend>
+          <legend>Exceptions qualité (▼ répéter à 3–6 mois)</legend>
           <label><input type="checkbox" name="flag" value="incompleteResection" /> Résection incomplète d’un polype</label>
           <label><input type="checkbox" name="flag" value="multipleUnresected" /> Polypes multiples non excisés</label>
           <label><input type="checkbox" name="flag" value="biopsyNeeded" /> Biopsie requise</label>
@@ -37,38 +35,36 @@
           <label><input type="checkbox" name="flag" value="badPrep" /> Préparation inadéquate</label>
         </fieldset>
 
+        <!-- Détails lésionnels -->
         <fieldset id="lesionFieldset" hidden>
           <legend>Données sur les lésions index</legend>
-          <label>Nombre d’adénomes
-            <input type="number" id="adenomaCount" value="0" min="0" max="20" />
-          </label>
-          <label>Taille du plus grand polype (mm)
-            <input type="number" id="largestPolyp" value="0" min="0" max="40" />
-          </label>
-          <label><input type="checkbox" id="advancedHistology" /> Histologie avancée (villosités, HGD, serrated)</label>
+          <label>Nombre d’adénomes <input type="number" id="adenomaCount" value="0" min="0" max="30" /></label>
+          <label>Nombre de polypes festonnés <input type="number" id="serratedCount" value="0" min="0" max="30" /></label>
+          <label>Taille du plus grand polype (mm) <input type="number" id="largestPolyp" value="0" min="0" max="60" /></label>
+          <label><input type="checkbox" id="hyperplasticLarge" /> Polype hyperplasique ≥ 10 mm</label>
+          <label><input type="checkbox" id="advancedHistology" /> Histologie avancée / dysplasie (HGD, festonné traditionnel, serrated + dysplasie)</label>
         </fieldset>
 
         <button type="submit" id="calculateBtn">Calculer</button>
       </form>
 
       <section id="result" hidden>
-        <h2>Intervalle recommandé :</h2>
+        <h2>Intervalle recommandé :</h2>
         <p id="intervalDisplay"></p>
       </section>
     </main>
 
     <footer>
-      <small>Algorithme MSSS 2023 – Figure 4, adapté. Aucune donnée n’est transmise.</small>
+      <small>Algorithme MSSS 2023 – Figures 4 & 14, adapté. Aucune donnée n’est transmise.</small>
     </footer>
 
     <script src="app.js"></script>
     <script>
-      // Radio toggle : n’afficher le fieldset des lésions que pour l’historique personnel
+      /* Affiche les champs lésionnels uniquement si ATCD personnels cochés */
       const lesionFieldset = document.getElementById('lesionFieldset');
-      document.querySelectorAll('input[name=risk]').forEach(r => {
-        r.addEventListener('change', () => {
-          lesionFieldset.hidden = r.value !== 'personal';
-        });
+      const personalPolyp = document.getElementById('personalPolyp');
+      personalPolyp.addEventListener('change', () => {
+        lesionFieldset.hidden = !personalPolyp.checked;
       });
     </script>
   </body>
